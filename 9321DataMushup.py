@@ -1,4 +1,5 @@
 from flask import Flask, render_template, jsonify
+from data_process import *
 import json
 
 app = Flask(__name__)
@@ -8,15 +9,23 @@ app = Flask(__name__)
 def hello_world():
     return render_template('main.html')
 
-@app.route('/line')
-def dataset_page():
-    # msg = ''
-    # with open('/Users/zhangjiahong/Desktop/9321DataMushup/static/data/beers.csv', 'r') as f:
-    #     print(f.readlines())
-    with open('/Users/zhangjiahong/Desktop/9321DataMushup/static/lineData/data.json') as f:
-        json_dict = json.load(f)
-        print(json_dict)
-    return jsonify(json_dict)
+# @app.route('/line')
+# def dataset_page():
+#     # msg = ''
+#     # with open('/Users/zhangjiahong/Desktop/9321DataMushup/static/data/beers.csv', 'r') as f:
+#     #     print(f.readlines())
+#     with open('/Users/zhangjiahong/Desktop/9321DataMushup/static/lineData/data.json') as f:
+#         json_dict = json.load(f)
+#         print(json_dict)
+#     return jsonify(json_dict)
+@app.route('/graph?area=<area>&timefrom=<timefrom>&timeto=<timeto>', methods=['GET'])
+def search_by_no_case(area, timefrom, timeto):
+    if not area:
+        return jsonify(Message='Please input the valid state name.'), 400
+
+    elif not timefrom or not timeto:
+        return jsonify(Message='Please specify the start time or end time.'), 400
+    return jsonify(query_by_no_case(area, timefrom, timeto)), 200
 
 @app.route('/graph')
 def year():

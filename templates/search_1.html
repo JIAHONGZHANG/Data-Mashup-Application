@@ -188,6 +188,7 @@
             });
 
         $('#submit-button').click(function() {
+            $('#main .container').html('');
             var search_state = $('#form-state-input').val();
             var search_year_from = $('#form-date-from-input').val();
             var search_year_to = $('#form-date-to-input').val();
@@ -196,21 +197,12 @@
                 return
             };
             alert('search query: ' + search_state + ', from' + search_year_from + ' to ' + search_year_to);
-            var jqxhr = $.ajax({
-                url: '/line',
-                {#url: '/search%3Farea%3D' + $('#form-state-input').val() + '%26timefrom%3D' + $('#form-date-from-input').val() + '%26timeto%3D' + $('#form-date-to-input').val(),#}
-                type: 'get'
-            }).done(function(data) {
-                console.log('get search.')
-            }).fail(function(xhr, status) {
-                $('#exampleModal').modal('show');
-            });
             var jqxhr_2 = $.ajax({
                 url: '/line',
-                {#url: '/graph%3Farea%3D' + $('#form-state-input').val() + '%26timefrom%3D' + $('#form-date-from-input').val() + '%26timeto%3D' + $('#form-date-to-input').val(),#}
+                url: '/graph%3Farea%3D' + search_state + '%26timefrom%3D' + search_year_from + '%26timeto%3D' + search_year_to,
                 type: 'get'
             }).done(function(data) {
-                lineChart(data);
+                barChart(data);
             }).fail(function(xhr, status) {
                 $('#exampleModal').modal('show');
             })

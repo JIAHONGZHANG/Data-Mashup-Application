@@ -1,7 +1,6 @@
 function barChart(data) {
 	data.forEach(function(d){
-		d.profit = +d.profit;
-		d.revenue = +d.revenue;
+		d.Count = +d.Count;
 	});
 
     var margin = {top: 10, bottom: 100, left: 100, right: 10};
@@ -11,28 +10,27 @@ function barChart(data) {
 
 	var svg = d3.select('#main').select('.container').append('svg');
 	svg.attr('width', width + margin.left + margin.right)
-	    .attr('height', height + margin.top + margin.bottom)
-	    .attr('style', 'border:1px solid black;');
+	    .attr('height', height + margin.top + margin.bottom);
 
 	var g = svg.append('g')
         .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
 	var tip = d3.tip().attr('class', 'd3-tip').offset([-12, 0]).html(function (d) {
-        return d.month + ': $' + d.revenue;
+        return d.Date + ': case ' + d.Count;
     });
 
 	g.call(tip);
 
     var x = d3.scaleBand()
         .domain(data.map(function (d) {
-            return d.month;
+            return d.Date;
         }))
         .range([0,width])
         .padding(0.3);
 
     var y = d3.scaleLinear()
         .domain([0, d3.max(data, function (d) {
-            return d.revenue*1.05;
+            return d.Count*1.05;
         })])
         .range([height, 0]);
 
@@ -52,7 +50,7 @@ function barChart(data) {
         .attr('x', width/2)
         .attr('y', height + 60)
         .attr('font-size', '20px')
-        .text('Month');
+        .text('Date');
 
 	var yLabel = g.append('text')
 		.attr('class', 'y axis-label')
@@ -61,7 +59,7 @@ function barChart(data) {
 		.attr('font-size', '20px')
 		.attr('text-anchor', 'middle')
 		.attr('transform', 'rotate(-90)')
-		.text('Revnue');
+		.text('Count');
 
 
     console.log(data);
@@ -71,7 +69,7 @@ function barChart(data) {
     rects.enter()
         .append('rect')
         .attr('x', function (d) {
-            return x(d.month);
+            return x(d.Date);
         })
         .attr('y', y(0))
         .attr('width', x.bandwidth())
@@ -80,10 +78,10 @@ function barChart(data) {
         .on('mouseout', tip.hide)
         .transition(t)
         .attr('y', function (d) {
-            return y(d.revenue);
+            return y(d.Count);
         })
         .attr('height', function (d) {
-            return height - y(d.revenue);
+            return height - y(d.Count);
         })
         .attr('fill', 'gray');
 
