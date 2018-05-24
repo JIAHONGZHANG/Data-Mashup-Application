@@ -157,7 +157,7 @@ def query_by_no_case(short_name, timefrom, timeto):
     area = short[short_name]
     # with open('by_state(v1.5).json', 'r') as meta_data:
     outcome = defaultdict()
-    output = defaultdict(list)
+    output = []
     load_dict = grab_from_mlab(short_name)
     for entry in load_dict[area]:
         if not time_cmp(timefrom, timeto, entry['date']):
@@ -168,9 +168,10 @@ def query_by_no_case(short_name, timefrom, timeto):
             if entry['date'] in outcome.keys():
                 outcome[entry['date']] += 1
     for item in outcome.items():
-        output[area].append({'date': item[0],
-                             'n_case': item[1]})
+        output.append({'Date': item[0],
+                       'Count': item[1]})
     # json_obj = json.dumps(output, sort_keys=True, indent=4, separators=(',', ': '))
+    pprint.pprint(output)
     return output
 
 
@@ -205,8 +206,8 @@ def victims_count(short_name):
     file_object.write(json_obj)
     file_object.close()
 
-if __name__ == '__main__':
-    #victims_count('AL')
-    # grab_from_mlab('AL')
-    # query_by_period('AL','2013-07-06','2014-01-01')
-    # query_by_no_case('AL','2013-07-06','2014-01-01')
+# if __name__ == '__main__':
+# #     #victims_count('AL')
+#     # grab_from_mlab('AL')
+#     # query_by_period('AL','2013-07-06','2014-01-01')
+#     query_by_no_case('AL','2013-07-06','2014-01-01')
