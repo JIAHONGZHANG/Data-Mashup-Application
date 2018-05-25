@@ -36,7 +36,7 @@ def search_by_no_case(area, timefrom, timeto):
 
     elif not timefrom or not timeto:
         return jsonify(Message='Please specify the start time or end time.'), 400
-    return query_by_no_case(area, timefrom, timeto), 200
+    return jsonify(query_by_no_case(area, timefrom, timeto)), 200
 
 
 if __name__ == '__main__':
