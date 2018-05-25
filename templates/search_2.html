@@ -133,17 +133,15 @@
                 .attr('id', 'statesvg');
             d3.select('#main').select('.container').append('div').attr('id', 'bar');
             var year = $('#year-input').val();
-            setTimeout(function () {
-                alert('search query: ' + year);
             var jqxhr = $.ajax({
                 url: '/search?year=201' + $('#year-input').val(),
                 type: 'get'
                 }).done(function(data) {
                     $('#loading').delay(1000).hide(0);
-                    console.log('aaaaaaa')
                 }).fail(function(xhr, status) {
                     $('#exampleModal').modal('show');
                 });
+
                 var jqxhr_2 = $.ajax({
                     url: '/graph?year=201' + $('#year-input').val(),
                     type: 'get'
@@ -154,7 +152,7 @@
                 }).fail(function(xhr, status) {
                     $('#exampleModal').modal('show');
                 })
-                }, 5000);
+
         });
 
     </script>
