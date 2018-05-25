@@ -70,6 +70,5 @@ function lineChart(data) {
               .attr("stroke-linejoin", "round")
               .attr("stroke-linecap", "round")
               .attr("stroke-width", 1.5)
-              .attr("d", line);
-
+              .attr("d", line)
 }

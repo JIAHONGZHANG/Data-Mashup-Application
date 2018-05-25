@@ -27,6 +27,16 @@ def search_by_no_case(area, timefrom, timeto):
         return jsonify(Message='Please specify the start time or end time.'), 400
     return jsonify(query_by_no_case(area, timefrom, timeto)), 200
 
+@app.route('/search?area=<area>&timefrom=<timefrom>&timeto=<timeto>', methods=['GET'])
+def search_by_period(area, timefrom, timeto):
+    if not area:
+        return jsonify(Message='Please input the valid state name.'), 400
+
+    elif not timefrom or not timeto:
+        return jsonify(Message='Please specify the start time or end time.'), 400
+
+    return jsonify(query_by_period(area, timefrom, timeto)), 200
+
 @app.route('/graph')
 def year():
     with open('/Users/zhangjiahong/Desktop/9321DataMushup/static/graph.json') as f:
@@ -52,11 +62,6 @@ def map():
         json_dict = json.load(f)
         print(json_dict)
     return jsonify(json_dict)
-
-
-# @app.route('/search?year=2015')
-# def getQuery():
-#     with open
 
 if __name__ == '__main__':
     app.run(port=5500)

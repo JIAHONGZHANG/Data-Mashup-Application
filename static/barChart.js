@@ -38,7 +38,12 @@ function barChart(data) {
     g.append('g')
         .attr('class', 'x-axis')
         .attr('transform', 'translate(0,' + height + ')')
-        .call(xAxisCall);
+        .call(xAxisCall)
+        .selectAll('text')
+        .attr('y', '10')
+        .attr('x', '-5')
+        .attr('text-anchor', 'end')
+        .attr('transform', 'rotate(-40)');
 
     var yAxisCall = d3.axisLeft(y);
     g.append('g')
@@ -48,7 +53,7 @@ function barChart(data) {
     var xLabel = g.append('text')
         .attr('class', 'xLabel')
         .attr('x', width/2)
-        .attr('y', height + 60)
+        .attr('y', height + 70)
         .attr('font-size', '20px')
         .text('Date');
 
@@ -89,7 +94,7 @@ function barChart(data) {
 
 function barChart_2(data) {
 
-    var margin = {top: 10, bottom: 100, left: 100, right: 10};
+    var margin = {top: 10, bottom: 100, left: 80, right: 10};
     var width = 1160 - margin.left - margin.right,
 	    height = 600 - margin.top - margin.bottom;
     var t = d3.transition().duration(500);
@@ -146,7 +151,7 @@ function barChart_2(data) {
 	var yLabel = g.append('text')
 		.attr('class', 'y axis-label')
 		.attr('x', -(height/2))
-		.attr('y', -60)
+		.attr('y', -40)
 		.attr('font-size', '20px')
 		.attr('text-anchor', 'middle')
 		.attr('transform', 'rotate(-90)')
