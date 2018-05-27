@@ -125,10 +125,9 @@ def graph():
 @app.route("/news", methods=['GET'])
 def news():
     RANDOM_TOKEN = 5
-    args = get_post_args(['year', 'state'], [str, str])
+    args = get_post_args(['year'], [str])
     year = args.get('year')
-    state = args.get('state')
-    query = {'date': {'$regex': year}, 'state': state}
+    query = {'date': {'$regex': year}}
     db_cm = mng_db['detailed_gunshot']
     r = db_cm.find(query, {"date":1, 'state':1, 'source_url':1})
     result = []
@@ -137,26 +136,23 @@ def news():
         result.append(doc)
 
     url='http://d2dcrc.cse.unsw.edu.au:9091/ExtractionAPI-0.0.1-SNAPSHOT/'
-    para = 'urlParagraph'
     title = 'urlTitle'
-    content = 'urlParagraph'
     slice = random.sample(result, RANDOM_TOKEN)
     print(slice)
     response = []
     for line in slice:
-        r_d = {}
-        source_url = line['source_url']
-        news_title = requests.post(url+title, data={'url': source_url}).text
-        rr = re.findall(r"(?=>).*(?=</span>&nbsp)", news_title)
-        t = rr[0][1:]
-        r_d['title'] = t
-        news_content = requests.post(url+content, data={'url': source_url}).text
-        rm = re.findall(r"<span class=\"desc\">(.*)(?=</span>)",news_content)
-        main = []
-        for i in range(1, len(rm)):
-            main.append(rm[i])
-        r_d['content'] = main
-        response.append(r_d)
+        try:
+            r_d = {}
+            source_url = line['source_url']
+            news_title = requests.post(url+title, data={'url': source_url}).text
+            rr = re.findall(r"(?=>).*(?=</span>&nbsp)", news_title)
+            t = rr[0][1:]
+            r_d['title'] = t
+            r_d['url'] = source_url
+            response.append(r_d)
+
+        except:
+            continue
     return jsonify(response), 200
 
 
