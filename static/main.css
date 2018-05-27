@@ -87,3 +87,20 @@
     margin-left: 100px;
     z-index:999;
 }
+
+.sole-img{
+    padding-top: 40px;
+    position: relative;
+    left: 280px;
+}
+
+.tri-img{
+    padding-top: 40px;
+    position: relative;
+    left: 40px;
+}
+
+.description {
+    padding: 20px 0 20px 20px;
+    font-family: Helmet, Freesans, Helvetica, Arial, sans-serif;
+}
